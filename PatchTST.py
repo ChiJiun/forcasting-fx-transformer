@@ -58,6 +58,11 @@ from gluonts.time_feature import get_seasonality
 warnings.filterwarnings('ignore')
 
 
+def patchtst_values(values):
+    values = values.float()
+    return values.unsqueeze(-1) if values.ndim == 2 else values
+
+
 # preparing the dataset
 def prepare_dataset():
     nations = Path('nations').glob('*.csv')
@@ -369,6 +374,7 @@ if __name__ == '__main__':
         # transformer params:
         num_hidden_layers=2,
         d_model=16,
+        num_input_channels=1,
     )
 
     training_config = {
@@ -436,11 +442,10 @@ if __name__ == '__main__':
 
         model.train()
         for idx, batch in enumerate(train_dataloader):
-            print(batch["past_values"].shape, batch["future_values"].shape)
             optimizer.zero_grad()
             outputs = model(
-                past_values=batch["past_values"].to(device),
-                future_values=batch["future_values"].to(device),
+                past_values=patchtst_values(batch["past_values"]).to(device),
+                future_values=patchtst_values(batch["future_values"]).to(device),
             )
             loss = outputs.loss
 
@@ -454,18 +459,9 @@ if __name__ == '__main__':
         model.eval()
         for idx, batch in enumerate(validation_dataloader):
             outputs = model(
-                static_categorical_features=batch["static_categorical_features"].to(device)
-                if config.num_static_categorical_features > 0
-                else None,
-                static_real_features=batch["static_real_features"].to(device)
-                if config.num_static_real_features > 0
-                else None,
-                past_time_features=batch["past_time_features"].to(device),
-                past_values=batch["past_values"].to(device),
-                future_time_features=batch["future_time_features"].to(device),
-                future_values=batch["future_values"].to(device),
-                past_observed_mask=batch["past_observed_mask"].to(device),
-                future_observed_mask=batch["future_observed_mask"].to(device),
+                past_values=patchtst_values(batch["past_values"]).to(device),
+                past_observed_mask=patchtst_values(batch["past_observed_mask"]).to(device),
+                future_values=patchtst_values(batch["future_values"]).to(device),
             )
             loss = outputs.loss
 
@@ -493,16 +489,8 @@ if __name__ == '__main__':
     forecasts = []
     for batch in test_dataloader:
         outputs = model.generate(
-            static_categorical_features=batch["static_categorical_features"].to(device)
-            if config.num_static_categorical_features > 0
-            else None,
-            static_real_features=batch["static_real_features"].to(device)
-            if config.num_static_real_features > 0
-            else None,
-            past_time_features=batch["past_time_features"].to(device),
-            past_values=batch["past_values"].to(device),
-            future_time_features=batch["future_time_features"].to(device),
-            past_observed_mask=batch["past_observed_mask"].to(device),
+            past_values=patchtst_values(batch["past_values"]).to(device),
+            past_observed_mask=patchtst_values(batch["past_observed_mask"]).to(device),
         )
         forecasts.append(outputs.sequences.cpu().numpy())
 
@@ -513,7 +501,7 @@ if __name__ == '__main__':
     mse_evaluator = load("mse")
     mae_evaluator = load("mae")
 
-    forecast_median = np.median(forecasts, 1)
+    forecast_median = np.median(forecasts, 1).squeeze(-1)
 
     item_id_list = []
     mase_metrics = []

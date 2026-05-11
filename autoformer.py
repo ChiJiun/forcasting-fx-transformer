@@ -461,7 +461,7 @@ if __name__ == '__main__':
         "dataset": "fx-nations",
         "epochs": 120,
         "batch_size": 128,
-        "wandb": True,
+        "wandb": False,
         "num_batches_per_epoch": 200,
     }
 
