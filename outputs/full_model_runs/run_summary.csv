@@ -1,0 +1,2 @@
+﻿model,status,start_time,end_time,seconds,log_file
+transformer.py,failed,2026-05-25T21:39:24,2026-05-25T21:39:47,23,D:\Code\GitHub Desktop\forcasting-fx-transformer\outputs\full_model_runs\transformer.log

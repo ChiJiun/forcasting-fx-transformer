@@ -1,0 +1,38 @@
+{
+  "model": "informer",
+  "grid_config": {
+    "prediction_length": 14,
+    "context_length": 60
+  },
+  "training_config": {
+    "learning_rate": 0.0004,
+    "epochs": 120,
+    "batch_size": 128,
+    "num_batches_per_epoch": 200,
+    "train_num_instances": 5.0,
+    "seed": 42
+  },
+  "lags_sequence": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    13,
+    14,
+    15,
+    20,
+    21,
+    22,
+    27,
+    28,
+    29,
+    30,
+    31,
+    56,
+    84
+  ]
+}

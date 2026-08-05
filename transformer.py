@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+import torch
 from datasets import DatasetDict, Dataset
 from functools import lru_cache
 import matplotlib.pyplot as plt
