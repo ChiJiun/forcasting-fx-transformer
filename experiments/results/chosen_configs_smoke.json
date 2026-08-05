@@ -1,0 +1,23 @@
+{
+  "fold0_ridge": {
+    "alpha": 0.1,
+    "n_lags": 5,
+    "use_feats": true
+  },
+  "fold0_nlinear": {
+    "L": 30,
+    "lr": 0.001
+  },
+  "fold0_dlinear": {
+    "L": 60,
+    "lr": 0.001,
+    "kernel": 25
+  },
+  "fold0_patchtst": {
+    "L": 90,
+    "lr": 0.001,
+    "d": 32,
+    "layers": 2,
+    "patch": 10
+  }
+}

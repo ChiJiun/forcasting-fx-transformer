@@ -1,0 +1,44 @@
+{
+  "fold0_ridge": {
+    "alpha": 100.0,
+    "n_lags": 20,
+    "use_feats": true
+  },
+  "fold0_nlinear": {
+    "L": 90,
+    "lr": 0.001
+  },
+  "fold0_dlinear": {
+    "L": 180,
+    "lr": 0.001,
+    "kernel": 51
+  },
+  "fold0_patchtst": {
+    "L": 90,
+    "lr": 0.0003,
+    "d": 64,
+    "layers": 2,
+    "patch": 10
+  },
+  "fold1_ridge": {
+    "alpha": 0.1,
+    "n_lags": 10,
+    "use_feats": true
+  },
+  "fold1_nlinear": {
+    "L": 180,
+    "lr": 0.001
+  },
+  "fold1_dlinear": {
+    "L": 180,
+    "lr": 0.001,
+    "kernel": 51
+  },
+  "fold1_patchtst": {
+    "L": 90,
+    "lr": 0.0003,
+    "d": 32,
+    "layers": 2,
+    "patch": 10
+  }
+}
